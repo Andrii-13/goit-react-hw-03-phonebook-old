@@ -1,11 +1,16 @@
 import { List } from './ContactList.styled';
 
-export const ContactList = ({ contacts }) => {
+export const ContactList = ({contacts, onfindContact}) => {
+  const filterContact = onfindContact();
+  if (contacts.length !== filterContact.length){
+    contacts = filterContact;
+  }
+
   return (
     <List>
       {[
-        contacts.map(({name, id}) => {
-          return <li key={id}>{name}</li>;
+        contacts.map(({id, name, number}) => {
+          return <li key={id}>{name}: {number}</li>;
         }),
       ]}
     </List>
