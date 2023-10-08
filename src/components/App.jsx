@@ -4,7 +4,7 @@ import { TitleContacts } from './TitleContacts/TitleContacts';
 import { Application } from './App.styled';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
-import { nanoid } from 'nanoid';
+
 import { Filter } from './Filter/Filter';
 
 export class App extends Component {
@@ -16,9 +16,10 @@ export class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-    name: '',
-    number: '',
+    // name: '',
+    // number: '',
   };
+
 
 
   findContact = () => {
@@ -28,41 +29,11 @@ export class App extends Component {
     return filterContact;
   };
 
-  changeInput = input => {
-    this.setState({
-      [input.name]: input.value,
-    });
-    this.findContact();
-  };
-
-  submitForm = e => {
-    e.preventDefault();
-    const id = nanoid(5);
-    this.state.contacts.push({
-      name: this.state.name,
-      number: this.state.number,
-      id: id,
-    });
-    console.log(this.state.name);
-    this.setState({
-      contacts: this.state.contacts,
-      name: '',
-      number: '',
-    });
-    console.log(this.state.contacts);
-  };
-
   render() {
     return (
       <Application>
         <TitlePhonebook title="Phonebook" />
-        <ContactForm
-          onChangeInput={this.changeInput}
-          onSubmitForm={this.submitForm}
-          inputName={this.state.name}
-          inputNumber={this.state.number}
-        />
-
+        <ContactForm/>
         <TitleContacts title="Contacts" />
         <Filter onChangeInput={this.changeInput} />
         <ContactList

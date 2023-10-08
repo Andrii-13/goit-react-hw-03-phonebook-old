@@ -1,10 +1,12 @@
 import { List } from './ContactList.styled';
 
-export const ContactList = ({contacts, onfindContact}) => {
-  const filterContact = onfindContact();
-  if (contacts.length !== filterContact.length){
-    contacts = filterContact;
-  }
+export const ContactList = ({contacts
+  // , onfindContact
+}) => {
+  // const filterContact = onfindContact();
+  // if (contacts.length !== filterContact.length){
+  //   contacts = filterContact;
+  // }
 
   return (
     <List>
