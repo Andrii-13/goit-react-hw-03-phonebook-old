@@ -39,6 +39,10 @@ button{
         background: white;
         color: red;
         
+        &:active{
+        background: white;
+        color: orange;        
+       }
        }
     }
 `

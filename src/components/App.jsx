@@ -4,7 +4,7 @@ import { TitleContacts } from './TitleContacts/TitleContacts';
 import { Application } from './App.styled';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
-
+import { nanoid } from 'nanoid';
 import { Filter } from './Filter/Filter';
 
 export class App extends Component {
@@ -16,27 +16,58 @@ export class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-    // name: '',
-    // number: '',
   };
 
+  formSubmitHandler = formState => {
+    const contactId = nanoid(5);
+    formState.id = contactId;
+    this.setState(prevState => {
+      return { contacts: [...prevState.contacts, formState] };
+    });
+  };
 
+  changeInput = input => {
+    this.setState({
+      [input.name]: input.value,
+    });
+
+    this.findContact();
+  };
 
   findContact = () => {
-    const filterContact = this.state.contacts.filter(({ name }) =>
-      name.toLowerCase().includes(this.state.filter.toLowerCase())
-    );
+    const filterContact = this.state.contacts.filter(({ name }) => {
+      return name.toLowerCase().includes(this.state.filter.toLowerCase());
+    });
     return filterContact;
   };
+
+  
+  deleteContact = contactId => {
+    // contactId - id який отримуємо при натисканні на кнопку 
+     // змінюємо стан від попереднього
+    this.setState(prevState => ({
+      //  і забираємо всі контакти окрім contactId
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
+  };
+
+
 
   render() {
     return (
       <Application>
         <TitlePhonebook title="Phonebook" />
-        <ContactForm/>
+        <ContactForm
+          onSubmitForm={this.formSubmitHandler}
+          contacts={this.state.contacts}
+        />
         <TitleContacts title="Contacts" />
-        <Filter onChangeInput={this.changeInput} />
-        <ContactList
+        <Filter
+          onChangeInput={this.changeInput}
+          inputFilter={this.state.filter}
+        />
+        <ContactList       
+          onDeleteContact = {this.deleteContact}
           contacts={this.state.contacts}
           onfindContact={this.findContact}
         />

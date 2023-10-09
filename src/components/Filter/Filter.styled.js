@@ -7,7 +7,7 @@ export const FilterWrap = styled.div`
   font-size: 15px;
   width: 250px;
   height: 26px;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   outline: none;
 
   label{
@@ -18,7 +18,6 @@ input{
     font-size: 15px;
     width: 250px;
     height: 26px;
-    margin-bottom: 30px;
     outline: none;   
 
    
