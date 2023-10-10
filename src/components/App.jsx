@@ -18,30 +18,27 @@ export class App extends Component {
     filter: '',
   };
 
-  formSubmitHandler = formState => {
+  formSubmitHandler = formState => {   
     const contactId = nanoid(5);
     formState.id = contactId;
+    if (this.state.contacts.find(({name})=>formState.name === name)){
+      alert(`${formState.name} is already in contacts`);
+      return;
+    }
     this.setState(prevState => {
       return { contacts: [...prevState.contacts, formState] };
     });
   };
 
+
+  
   changeInput = input => {
     this.setState({
       [input.name]: input.value,
     });
-
-    this.findContact();
   };
 
-  findContact = () => {
-    const filterContact = this.state.contacts.filter(({ name }) => {
-      return name.toLowerCase().includes(this.state.filter.toLowerCase());
-    });
-    return filterContact;
-  };
-
-  
+   
   deleteContact = contactId => {
     // contactId - id який отримуємо при натисканні на кнопку 
      // змінюємо стан від попереднього
@@ -51,7 +48,13 @@ export class App extends Component {
     }));
   };
 
-
+findContact = () => {
+    const filterContact = this.state.contacts.filter(({ name }) => {
+      return name.toLowerCase().includes(this.state.filter.toLowerCase());
+    });
+    console.log(filterContact);
+    return filterContact;
+  };
 
   render() {
     return (
@@ -59,7 +62,6 @@ export class App extends Component {
         <TitlePhonebook title="Phonebook" />
         <ContactForm
           onSubmitForm={this.formSubmitHandler}
-          contacts={this.state.contacts}
         />
         <TitleContacts title="Contacts" />
         <Filter
@@ -68,7 +70,6 @@ export class App extends Component {
         />
         <ContactList       
           onDeleteContact = {this.deleteContact}
-          contacts={this.state.contacts}
           onfindContact={this.findContact}
         />
       </Application>

@@ -7,12 +7,6 @@ export class ContactForm extends Component {
 
   submitForm = e => {
     e.preventDefault();   
-    const contacts = this.props.contacts
-    if (contacts.find(({name})=>this.state.name === name)){
-      alert(`${this.state.name} is already in contacts`);
-      this.reset();
-      return;
-    }
     this.props.onSubmitForm(this.state);
     this.reset();
   };
