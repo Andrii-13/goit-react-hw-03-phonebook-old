@@ -18,3 +18,4 @@ export const ContactList = ({onfindContact, onDeleteContact}) => {
     </List>
   );
 };
+
