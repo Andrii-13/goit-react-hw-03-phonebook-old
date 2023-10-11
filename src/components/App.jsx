@@ -9,19 +9,14 @@ import { Filter } from './Filter/Filter';
 
 export class App extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [],
     filter: '',
   };
 
-  formSubmitHandler = formState => {   
+  formSubmitHandler = formState => {
     const contactId = nanoid(5);
     formState.id = contactId;
-    if (this.state.contacts.find(({name})=>formState.name === name)){
+    if (this.state.contacts.find(({ name }) => formState.name === name)) {
       alert(`${formState.name} is already in contacts`);
       return;
     }
@@ -30,29 +25,38 @@ export class App extends Component {
     });
   };
 
+  componentDidMount = () => {
+    const contactsFromLS = JSON.parse(localStorage.getItem('contacts'));
+    this.setState({
+      contacts: contactsFromLS,
+    });
+  };
 
-  
+  componentDidUpdate = (prevProps, prevState) => {     
+    if (prevState.contacts.length !== this.state.contacts.length){
+    localStorage.setItem('contacts', JSON.stringify(this.state.contacts));   
+  }
+  };
+
   changeInput = input => {
     this.setState({
       [input.name]: input.value,
     });
   };
 
-   
   deleteContact = contactId => {
-    // contactId - id який отримуємо при натисканні на кнопку 
-     // змінюємо стан від попереднього
+    // contactId - id який отримуємо при натисканні на кнопку
+    // змінюємо стан від попереднього
     this.setState(prevState => ({
       //  і забираємо всі контакти окрім contactId
       contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }));
   };
 
-findContact = () => {
+  findContact = () => {
     const filterContact = this.state.contacts.filter(({ name }) => {
       return name.toLowerCase().includes(this.state.filter.toLowerCase());
     });
-    console.log(filterContact);
     return filterContact;
   };
 
@@ -60,16 +64,14 @@ findContact = () => {
     return (
       <Application>
         <TitlePhonebook title="Phonebook" />
-        <ContactForm
-          onSubmitForm={this.formSubmitHandler}
-        />
+        <ContactForm onSubmitForm={this.formSubmitHandler} />
         <TitleContacts title="Contacts" />
         <Filter
           onChangeInput={this.changeInput}
           inputFilter={this.state.filter}
         />
-        <ContactList       
-          onDeleteContact = {this.deleteContact}
+        <ContactList
+          onDeleteContact={this.deleteContact}
           onfindContact={this.findContact}
         />
       </Application>
