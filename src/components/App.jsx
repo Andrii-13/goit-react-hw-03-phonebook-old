@@ -16,7 +16,7 @@ export class App extends Component {
   formSubmitHandler = formState => {
     const contactId = nanoid(5);
     formState.id = contactId;
-    if (this.state.contacts.find(({ name }) => formState.name === name)) {
+    if (this.state.contacts.find(({ name }) => formState.name.toLowerCase() === name.toLowerCase())) {
       alert(`${formState.name} is already in contacts`);
       return;
     }
@@ -33,7 +33,7 @@ export class App extends Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {     
-    if (prevState.contacts.length !== this.state.contacts.length){
+    if (prevState.contacts !== this.state.contacts){
     localStorage.setItem('contacts', JSON.stringify(this.state.contacts));   
   }
   };
